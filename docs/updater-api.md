@@ -20,7 +20,7 @@ GET /api/v1/updates/{target}/{arch}/{current_version}
   "version": "0.2.0",
   "notes": "新增自动更新和更新日志界面。",
   "pub_date": "2026-08-21T12:00:00Z",
-  "url": "https://download.example.com/api/v1/releases/0.2.0/windows/x86_64/update.nsis.zip",
+  "url": "https://download.sagraph.top/api/v1/releases/0.2.0/windows/x86_64/update.nsis.zip",
   "signature": "BASE64_TAURI_UPDATER_SIGNATURE"
 }
 ```
