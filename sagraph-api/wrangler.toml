@@ -1,14 +1,8 @@
 name = "sagraph-api"
 main = "src/index.ts"
 compatibility_date = "2026-08-21"
-
-[[routes]]
-pattern = "api.sagraph.top"
-custom_domain = true
-
-[[routes]]
-pattern = "download.sagraph.top"
-custom_domain = true
+workers_dev = false
+keep_vars = true
 
 [[r2_buckets]]
 binding = "RELEASES_BUCKET"

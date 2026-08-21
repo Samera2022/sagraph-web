@@ -1,0 +1,7 @@
+# 把以下内容追加到 wrangler.toml，并将 database_id 替换为
+# `wrangler d1 create sagraph-commerce` 返回的真实 ID。
+
+[[d1_databases]]
+binding = "DB"
+database_name = "sagraph-commerce"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"

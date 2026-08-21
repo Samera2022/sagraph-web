@@ -1,64 +1,69 @@
 # sagraph-api
 
-Cloudflare Worker，负责版本检查、更新日志 manifest 和 R2 安装包下载。
+Cloudflare Worker，负责：
 
-## Cloudflare 现有资源
+- Tauri 更新检查与 R2 下载代理
+- PayPal 创建订单和捕获付款
+- 使用 saGraph 现有 RSA 格式签发激活码
+- D1 PayPal 订单和许可证更新授权
+- 直接验证桌面客户端提交的本地许可证明
+
+## 资源
 
 ```text
 Worker: sagraph-api
-API domain: https://api.sagraph.top
-Download domain: https://download.sagraph.top
-R2 bucket: sagraph-releases
-R2 binding: RELEASES_BUCKET
+R2: sagraph-releases -> RELEASES_BUCKET
+D1: sagraph-commerce -> DB
+API: https://api.sagraph.top
+Download: https://download.sagraph.top
 ```
 
-这些资源已经创建并绑定。部署 Worker 时不要重新创建同名 Worker 或 bucket。
-
-## 本地开发
+## 初始化 D1
 
 ```bash
-cd sagraph-api
+pnpm exec wrangler d1 create sagraph-commerce
+```
+
+把输出中的 `database_id` 按 `wrangler.d1.example.toml` 加入 `wrangler.toml`，然后执行：
+
+```bash
+pnpm run db:migrate:remote
+```
+
+## Secrets
+
+```bash
+pnpm exec wrangler secret put PAYPAL_CLIENT_SECRET
+pnpm exec wrangler secret put LICENSE_SIGNING_PRIVATE_KEY
+```
+
+普通 variables：
+
+```text
+PAYPAL_CLIENT_ID
+PAYPAL_BASE_URL=https://api-m.sandbox.paypal.com   # 测试
+REQUIRE_LICENSE=0
+```
+
+正式上线 PayPal 后把 base URL 改成：
+
+```text
+https://api-m.paypal.com
+```
+
+`LICENSE_SIGNING_PRIVATE_KEY` 填 `license-keys/saGraph_license_private.pem` 的完整内容，不是 Tauri updater 私钥。
+
+## 开发与部署
+
+```bash
 pnpm install
 pnpm check
 pnpm dev
+pnpm run deploy
 ```
 
-## 部署
-
-登录 Cloudflare：
-
-```bash
-pnpm wrangler login
-```
-
-部署到现有 Worker：
-
-```bash
-pnpm deploy
-```
-
-`wrangler.toml` 中已经声明：
+只有在 D1、PayPal、激活和客户端 headers 端到端验证后才设置：
 
 ```text
-api.sagraph.top       -> sagraph-api
-download.sagraph.top -> sagraph-api
-RELEASES_BUCKET       -> sagraph-releases
+REQUIRE_LICENSE=1
 ```
-
-## 当前路由
-
-```text
-GET  https://api.sagraph.top/
-GET  https://api.sagraph.top/health
-GET  https://download.sagraph.top/api/v1/releases/<version>/<target>/<arch>/<filename>
-HEAD https://download.sagraph.top/api/v1/releases/<version>/<target>/<arch>/<filename>
-```
-
-R2 对象路径映射示例：
-
-```text
-/api/v1/releases/0.2.0/windows/x86_64/file.zip
-→ releases/0.2.0/windows/x86_64/file.zip
-```
-
-更新检查和更新日志接口将在此项目继续实现。

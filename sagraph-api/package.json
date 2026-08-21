@@ -10,7 +10,9 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "db:migrate:local": "wrangler d1 migrations apply sagraph-commerce --local",
+    "db:migrate:remote": "wrangler d1 migrations apply sagraph-commerce --remote"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^5.20260821.1",
