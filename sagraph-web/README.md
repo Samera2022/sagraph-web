@@ -17,6 +17,14 @@ pnpm check
 pnpm build
 ```
 
+手动部署到现有 Cloudflare Pages 项目：
+
+```bash
+pnpm run deploy
+```
+
+日常推送到 `main` 时，Cloudflare Git Integration 会自动部署；手动命令用于重新发布或排查 Git Integration。
+
 ## Cloudflare Pages
 
 Cloudflare Pages 连接本仓库时填写：

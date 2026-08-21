@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "deploy": "pnpm build && pnpm dlx wrangler@4 pages deploy dist --project-name sagraph-web",
     "preview": "astro preview",
     "check": "astro check"
   },

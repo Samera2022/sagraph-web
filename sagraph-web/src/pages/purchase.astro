@@ -1,0 +1,20 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import PurchasePanel from "../components/PurchasePanel.svelte";
+---
+<SiteLayout title="Purchase saGraph" description="Purchase a saGraph license securely with PayPal.">
+  <Header />
+  <main class="container page">
+    <p class="eyebrow">License</p>
+    <h1>Own the workflow.</h1>
+    <p class="intro">Choose a license term, bind it to your saGraph machine code, and receive an activation key immediately after PayPal confirms payment.</p>
+    <PurchasePanel client:load />
+    <section class="notes"><p>Payments are verified by the saGraph API directly against PayPal. One PayPal order can activate one machine code.</p><p>Tauri updater packages remain independently signed; purchase verification does not replace installer signature verification.</p></section>
+  </main>
+  <Footer />
+</SiteLayout>
+<style>
+  .page { padding: 7rem 0 2rem; }.page h1 { font-size: clamp(3rem, 7vw, 6rem); letter-spacing: -0.08em; line-height: 0.96; margin: 1rem 0 1.4rem; }.intro { color: var(--muted); font-size: 1.05rem; line-height: 1.7; max-width: 670px; }.notes { border-top: 1px solid var(--line); color: var(--muted); display: grid; font-size: 0.8rem; gap: 1rem; grid-template-columns: 1fr 1fr; line-height: 1.6; margin-top: 2rem; padding-top: 1.5rem; } @media (max-width: 700px) { .notes { grid-template-columns: 1fr; } }
+</style>

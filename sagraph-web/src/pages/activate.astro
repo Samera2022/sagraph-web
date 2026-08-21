@@ -1,0 +1,19 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ActivationPanel from "../components/ActivationPanel.svelte";
+---
+<SiteLayout title="Activate saGraph" description="Generate or recover a saGraph activation key from a completed PayPal order.">
+  <Header />
+  <main class="container page">
+    <p class="eyebrow">Activation</p>
+    <h1>Connect payment to this machine.</h1>
+    <p class="intro">Enter the completed PayPal order ID and the machine code shown in saGraph Settings. Repeating the request for the same order and machine returns the same entitlement.</p>
+    <ActivationPanel client:load />
+  </main>
+  <Footer />
+</SiteLayout>
+<style>
+  .page { padding: 7rem 0 2rem; }.page h1 { font-size: clamp(2.8rem, 6vw, 5.3rem); letter-spacing: -0.075em; line-height: 0.98; margin: 1rem 0 1.4rem; max-width: 850px; }.intro { color: var(--muted); font-size: 1.05rem; line-height: 1.7; max-width: 680px; }
+</style>
