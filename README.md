@@ -140,3 +140,9 @@ docs/cloudflare-values.example.md
 ```text
 docs/github-cloudflare-pages.md
 ```
+
+Pages、Worker、R2 和域名已经创建后的完整后续操作见：
+
+```text
+docs/cloudflare-after-setup.md
+```
