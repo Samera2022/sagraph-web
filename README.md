@@ -134,3 +134,9 @@ docs/cloudflare-setup.md
 ```text
 docs/cloudflare-values.example.md
 ```
+
+首次推送 GitHub 并绑定 Cloudflare Pages 的逐步说明见：
+
+```text
+docs/github-cloudflare-pages.md
+```
