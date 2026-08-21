@@ -1,0 +1,41 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+<SiteLayout>
+  <Header />
+  <main>
+    <section class="hero container">
+      <div class="hero-copy">
+        <p class="eyebrow">A calmer way to finish work</p>
+        <h1>Tasks that understand what comes next.</h1>
+        <p class="lead">saGraph is a compact desktop task panel for workflows with real dependencies. See what is ready, what is blocked, and why.</p>
+        <div class="actions"><a class="button button-primary" href="/download">Download saGraph <span>↓</span></a><a class="button button-ghost" href="/docs">Read the docs</a></div>
+        <p class="fine-print">Windows · Linux · macOS · Free trial available</p>
+      </div>
+      <div class="window-card" aria-label="saGraph interface preview">
+        <div class="window-top"><span class="dots"><i></i><i></i><i></i></span><span>saGraph</span><span>⋯</span></div>
+        <div class="window-body"><div class="mini-title">Today <span>4 tasks</span></div><div class="task done"><b>✓</b><span>Review project brief</span></div><div class="task ready"><b>→</b><span>Write implementation plan</span><em>Ready</em></div><div class="task blocked"><b>⊘</b><span>Ship first prototype</span><em>2 blockers</em></div><div class="task ready"><b>→</b><span>Send progress update</span><em>Ready</em></div></div>
+      </div>
+    </section>
+    <section class="feature-section container"><div class="section-heading"><p class="eyebrow">Less list. More clarity.</p><h2>Designed for work that has a shape.</h2></div><div class="feature-grid"><article class="card feature"><span class="feature-icon">◎</span><h3>Dependency-aware</h3><p>Model AND, OR and NOT prerequisites instead of keeping invisible rules in your head.</p></article><article class="card feature"><span class="feature-icon">⌁</span><h3>Always in reach</h3><p>A small, focused panel that stays useful without taking over your screen.</p></article><article class="card feature"><span class="feature-icon">↗</span><h3>See the graph</h3><p>Trace blockers and downstream work before a small delay becomes a surprise.</p></article></div></section>
+    <section class="cta container card"><div><p class="eyebrow">Make progress visible</p><h2>Start with the work in front of you.</h2></div><a class="button button-primary" href="/download">Get saGraph <span>↗</span></a></section>
+  </main>
+  <Footer />
+</SiteLayout>
+<style>
+  .hero { align-items: center; display: grid; gap: 5rem; grid-template-columns: 1fr 0.82fr; min-height: 650px; padding: 5rem 0; }
+  h1 { font-size: clamp(3.4rem, 7vw, 6.4rem); letter-spacing: -0.08em; line-height: 0.95; margin: 1rem 0 1.5rem; max-width: 700px; }
+  .lead { color: var(--muted); font-size: 1.08rem; line-height: 1.7; max-width: 510px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+  .fine-print { color: #77738b; font-size: 0.75rem; margin-top: 1.3rem; }
+  .window-card { background: #151722; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 22px; box-shadow: 0 30px 100px rgba(92, 78, 210, 0.24); overflow: hidden; transform: rotate(2deg); }
+  .window-top { align-items: center; background: #1c1e2b; color: #aaa7bb; display: flex; font-size: 0.7rem; justify-content: space-between; padding: 0.8rem 1rem; }
+  .dots { display: flex; gap: 0.28rem; }.dots i { background: #706b83; border-radius: 99px; height: 6px; width: 6px; }
+  .window-body { padding: 1.2rem; }.mini-title { color: #f4f1ff; display: flex; font-size: 0.95rem; font-weight: 700; justify-content: space-between; margin-bottom: 1rem; }.mini-title span { color: #77738b; font-size: 0.7rem; font-weight: 400; }
+  .task { align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.07); color: #d8d5e5; display: flex; font-size: 0.75rem; gap: 0.65rem; padding: 1rem 0.2rem; }.task b { border-radius: 50%; color: var(--accent); font-size: 0.9rem; }.task.done { color: #77738b; text-decoration: line-through; }.task.blocked b, .task.blocked em { color: #f29aab; }.task em { color: var(--cyan); font-size: 0.65rem; font-style: normal; margin-left: auto; }
+  .feature-section { padding: 6rem 0 2rem; }.section-heading h2, .cta h2 { font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: -0.06em; line-height: 1; margin: 0.8rem 0 2rem; }.feature-grid { display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); }.feature { padding: 1.6rem; }.feature-icon { color: var(--accent); font-size: 1.6rem; }.feature h3 { font-size: 1.05rem; margin: 1.8rem 0 0.6rem; }.feature p { color: var(--muted); font-size: 0.9rem; line-height: 1.65; margin: 0; }
+  .cta { align-items: center; display: flex; justify-content: space-between; margin-top: 6rem; padding: 2rem 2.2rem; }.cta h2 { margin-bottom: 0; max-width: 570px; }
+  @media (max-width: 800px) { .hero { gap: 3rem; grid-template-columns: 1fr; min-height: 0; padding: 5rem 0 3rem; }.window-card { max-width: 520px; transform: none; }.feature-grid { grid-template-columns: 1fr; }.cta { align-items: flex-start; flex-direction: column; gap: 1.5rem; } }
+</style>

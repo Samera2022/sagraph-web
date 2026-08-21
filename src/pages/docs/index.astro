@@ -1,0 +1,9 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+---
+<SiteLayout title="Docs — saGraph"><Header /><main class="container page"><p class="eyebrow">Documentation</p><h1>Understand the graph.</h1><p class="intro">Learn how saGraph models dependencies, status, and workflow progress.</p><div class="docs-grid"><article class="card doc"><span>01</span><h2>Core concepts</h2><p>Tasks, categories, prerequisites, and the states that connect them.</p></article><article class="card doc"><span>02</span><h2>Updates</h2><p>How signed releases, local changelogs, and the updater work together.</p></article><article class="card doc"><span>03</span><h2>Licensing</h2><p>Trial, activation, and account support will be documented here.</p></article></div></main><Footer /></SiteLayout>
+<style>
+  .page { padding: 7rem 0 2rem; }.page h1 { font-size: clamp(3.2rem, 7vw, 6rem); letter-spacing: -0.08em; line-height: 0.96; margin: 1rem 0 1.4rem; }.intro { color: var(--muted); font-size: 1.05rem; line-height: 1.7; max-width: 570px; }.docs-grid { display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); margin-top: 4rem; }.doc { padding: 1.5rem; }.doc span { color: var(--accent); font-size: 0.78rem; }.doc h2 { font-size: 1.2rem; margin: 2.8rem 0 0.6rem; }.doc p { color: var(--muted); line-height: 1.6; margin: 0; }@media (max-width: 800px) { .docs-grid { grid-template-columns: 1fr; } }
+</style>

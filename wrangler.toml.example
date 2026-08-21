@@ -1,0 +1,17 @@
+name = "sagraph-api"
+compatibility_date = "2026-08-21"
+
+# Copy this file into the future API Worker project.
+# Static Astro output itself is deployed by Cloudflare Pages.
+
+[[r2_buckets]]
+binding = "RELEASES_BUCKET"
+bucket_name = "sagraph-releases"
+
+# Replace the domain before deploying.
+# [[routes]]
+# pattern = "api.example.com"
+# custom_domain = true
+
+# Configure Secrets Store bindings in the Cloudflare Dashboard after
+# creating the store. Keep the store ID and secret names out of the public site.

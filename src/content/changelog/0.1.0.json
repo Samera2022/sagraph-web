@@ -1,0 +1,11 @@
+{
+  "version": "0.1.0",
+  "date": "2026-08-21",
+  "title": "The first saGraph release",
+  "summary": "A lightweight desktop task panel with dependency-aware workflows.",
+  "highlights": [
+    "Create task workflows with AND, OR and NOT prerequisites.",
+    "Inspect dependency graphs and blocker summaries.",
+    "Use the compact always-on-top desktop panel across platforms."
+  ]
+}

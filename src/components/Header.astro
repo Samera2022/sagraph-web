@@ -1,0 +1,18 @@
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="saGraph home"><span class="brand-mark">S</span><span>saGraph</span></a>
+    <nav aria-label="Primary navigation"><a href="/download">Download</a><a href="/changelog">Changelog</a><a href="/docs">Docs</a></nav>
+    <a class="header-action" href="/download">Get saGraph <span>↗</span></a>
+  </div>
+</header>
+<style>
+  .site-header { border-bottom: 1px solid var(--line); background: rgba(11, 12, 18, 0.8); backdrop-filter: blur(18px); position: sticky; top: 0; z-index: 10; }
+  .header-inner { align-items: center; display: flex; gap: 2rem; height: 72px; justify-content: space-between; }
+  .brand { align-items: center; display: inline-flex; font-size: 1rem; font-weight: 800; gap: 0.65rem; letter-spacing: -0.02em; }
+  .brand-mark { align-items: center; background: var(--accent); border-radius: 10px; color: #100d1d; display: inline-flex; font-size: 0.8rem; height: 30px; justify-content: center; width: 30px; }
+  nav { display: flex; gap: 1.5rem; margin-left: auto; }
+  nav a { color: var(--muted); font-size: 0.86rem; }
+  nav a:hover, .header-action:hover { color: var(--text); }
+  .header-action { color: var(--accent); font-size: 0.86rem; font-weight: 700; }
+  @media (max-width: 620px) { nav { display: none; } }
+</style>
