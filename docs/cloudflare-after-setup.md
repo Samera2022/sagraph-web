@@ -530,7 +530,7 @@ VITE_CHANGELOG_MANIFEST_URL=https://api.sagraph.top/api/v1/changelog/manifest
 2. Worker 验证许可证是否有效、是否包含该版本和发行渠道。
 3. Worker 返回有效期 5–30 分钟的短期 Token。
 4. 客户端使用 Token 检查和下载更新。
-5. Worker拒绝过期、篡改或权限不足的 Token。
+5. Worker 拒绝过期、篡改或权限不足的 Token。
 
 当前客户端直接调用 `check()`，尚未向 Updater 请求附加授权头。因此在启用强制 Token 前，还需要修改客户端更新调用逻辑。
 
