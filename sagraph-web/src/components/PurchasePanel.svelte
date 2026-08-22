@@ -64,7 +64,7 @@
     const container = document.getElementById("paypal-buttons");
     if (container) container.innerHTML = "";
     buttons = paypal.Buttons({
-      style: { layout: "vertical", color: "gold", shape: "pill", label: "paypal" },
+      style: { layout: "vertical", color: "gold", shape: "rect", label: "paypal" },
       createOrder: async () => {
         const normalized = machineCode.trim().toUpperCase();
         if (!/^SAG-[A-Z0-9]{12,}$/.test(normalized)) throw new Error("Enter a valid SAG-XXXXXXXXXXXX machine code first.");
