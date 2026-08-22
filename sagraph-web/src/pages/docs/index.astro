@@ -3,7 +3,40 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 ---
-<SiteLayout title="Docs — saGraph"><Header /><main class="container page"><p class="eyebrow">Documentation</p><h1>Understand the graph.</h1><p class="intro">Learn how saGraph models dependencies, status, and workflow progress.</p><div class="docs-grid"><article class="card doc"><span>01</span><h2>Core concepts</h2><p>Tasks, categories, prerequisites, and the states that connect them.</p></article><article class="card doc"><span>02</span><h2>Updates</h2><p>How bundled release notes, signed packages, and the updater work together.</p></article><article class="card doc"><span>03</span><h2>Licensing</h2><p>Trial, activation, and account support will be documented here.</p></article></div></main><Footer /></SiteLayout>
+<SiteLayout title="Docs — saGraph" description="Learn how saGraph represents tasks, dependencies, workflows, and local data.">
+  <Header />
+  <main class="container page">
+    <p class="eyebrow">Documentation</p>
+    <h1>Keep the next step understandable.</h1>
+    <p class="intro">saGraph is a small desktop task panel for work that has prerequisites. This guide explains the model behind the interface and the shortest path from a blank panel to a useful workflow.</p>
+
+    <section class="doc-section">
+      <p class="eyebrow">01 · The basic model</p>
+      <h2>A task is more than a checkbox.</h2>
+      <div class="doc-copy"><p>Each task has a title, a category, a completion state, and optionally a prerequisite expression. When the expression is satisfied, the task is ready. When it is not, saGraph keeps the task visible but explains that it is locked.</p><p>Categories group related tasks. They can represent a project, a routine, or a workflow such as “Release 0.2”. The compact panel is for changing state quickly; the editor is for shaping the workflow.</p></div>
+    </section>
+
+    <section class="doc-section split-section">
+      <div><p class="eyebrow">02 · Dependencies</p><h2>Describe the condition, not just the order.</h2><p>Dependencies are built from tasks and three logical operators. They are useful when a task can unlock through more than one route.</p></div>
+      <div class="card expression-card"><div><span class="operator and">AND</span><span>Publish release</span></div><div class="expression-child">Build signed package</div><div class="expression-child">Run smoke test</div><p>Both conditions must be complete.</p></div>
+    </section>
+    <div class="operator-grid"><article class="card"><strong>AND</strong><p>Every child condition must be satisfied. Use it when two checks are both required.</p></article><article class="card"><strong>OR</strong><p>At least one child condition must be satisfied. Use it for alternative ways to proceed.</p></article><article class="card"><strong>NOT</strong><p>The child condition must not be satisfied. Use it for an explicit exception or blocker.</p></article></div>
+
+    <section class="doc-section split-section">
+      <div><p class="eyebrow">03 · A practical workflow</p><h2>Start with one chain you already know.</h2></div>
+      <ol class="steps"><li><strong>Create a category.</strong><span>Give the workflow a name that makes sense when you see it tomorrow.</span></li><li><strong>Add the tasks.</strong><span>Use concrete verbs: “Write migration”, “Review migration”, “Deploy staging”.</span></li><li><strong>Add prerequisites.</strong><span>Open the editor and express which tasks need to be done first.</span></li><li><strong>Work from the ready state.</strong><span>Check off completed tasks and follow the next available step.</span></li></ol>
+    </section>
+
+    <section class="doc-section split-section local-section">
+      <div><p class="eyebrow">04 · Local data</p><h2>Your task list is a desktop file, not a web account.</h2><p>saGraph stores task data locally and supports import/export. The website is used for downloads, release information, and license activation; it does not host your task database.</p></div>
+      <div class="card data-card"><div><span>Windows</span><code>dev.sagraph/data/data.json</code></div><div><span>Linux</span><code>~/.local/share/saGraph/data/data.json</code></div><div><span>Portable mode</span><code>&lt;app directory&gt;/data/data.json</code></div></div>
+    </section>
+
+    <section class="doc-section release-note"><p class="eyebrow">05 · Version 0.1.0</p><h2>What is available today.</h2><p>The first release includes the compact task panel, categories, AND/OR/NOT prerequisite editing, a separate dependency graph, import/export, system theme support, single-instance behavior, and startup/tray options. Platform packaging is available for Windows, Linux, and macOS builds; the release page shows the artifacts currently published.</p><p class="muted">The product is early and intentionally focused. More workflow management and graph interaction are planned as the core model gets exercised by real projects.</p></section>
+  </main>
+  <Footer />
+</SiteLayout>
 <style>
-  .page { padding: 7rem 0 2rem; }.page h1 { font-size: clamp(3.2rem, 7vw, 6rem); letter-spacing: -0.08em; line-height: 0.96; margin: 1rem 0 1.4rem; }.intro { color: var(--muted); font-size: 1.05rem; line-height: 1.7; max-width: 570px; }.docs-grid { display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); margin-top: 4rem; }.doc { padding: 1.5rem; }.doc span { color: var(--accent); font-size: 0.78rem; }.doc h2 { font-size: 1.2rem; margin: 2.8rem 0 0.6rem; }.doc p { color: var(--muted); line-height: 1.6; margin: 0; }@media (max-width: 800px) { .docs-grid { grid-template-columns: 1fr; } }
+  .page { padding: 7rem 0 2rem; }.page > h1 { font-size: clamp(3rem, 7vw, 6rem); letter-spacing: -0.08em; line-height: 0.96; margin: 1rem 0 1.4rem; max-width: 900px; }.intro { color: var(--muted); font-size: 1.05rem; line-height: 1.7; max-width: 700px; }.doc-section { border-top: 1px solid var(--line); margin-top: 6rem; padding-top: 2rem; }.doc-section h2 { font-size: clamp(1.8rem, 4vw, 3rem); letter-spacing: -0.06em; line-height: 1.05; margin: 0.8rem 0 1.2rem; max-width: 680px; }.doc-copy { display: grid; gap: 1.5rem; grid-template-columns: 1fr 1fr; max-width: 780px; }.doc-copy p, .split-section > div > p:not(.eyebrow), .release-note > p:not(.eyebrow) { color: var(--muted); line-height: 1.75; margin: 0; }.split-section { display: grid; gap: 4rem; grid-template-columns: 1fr 1fr; }.expression-card { align-self: center; padding: 1.2rem; }.expression-card > div:first-child { align-items: center; display: flex; gap: 0.7rem; font-weight: 700; padding-bottom: 0.8rem; }.operator { border-radius: 6px; font-size: 0.68rem; padding: 0.35rem 0.45rem; }.operator.and { background: rgba(117, 216, 208, 0.14); color: var(--cyan); }.expression-child { border-left: 1px solid var(--accent); color: var(--muted); font-size: 0.85rem; margin: 0.5rem 0 0.5rem 0.8rem; padding: 0.55rem 0 0.55rem 1rem; }.expression-card p { border-top: 1px solid var(--line); color: var(--muted); font-size: 0.78rem; margin: 1rem 0 0; padding-top: 0.8rem; }.operator-grid { display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); margin-top: 1rem; }.operator-grid article { padding: 1.3rem; }.operator-grid strong { color: var(--accent); font-size: 0.8rem; }.operator-grid p { color: var(--muted); font-size: 0.86rem; line-height: 1.65; margin: 0.8rem 0 0; }.steps { display: grid; gap: 1rem; list-style: none; margin: 0; padding: 0; }.steps li { border-bottom: 1px solid var(--line); display: grid; gap: 0.3rem; padding-bottom: 1rem; }.steps strong { font-size: 0.95rem; }.steps span { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }.data-card { display: grid; gap: 1rem; padding: 1.3rem; }.data-card div { display: grid; gap: 0.35rem; }.data-card span { color: var(--muted); font-size: 0.75rem; }.data-card code { color: var(--text); font-size: 0.78rem; overflow-wrap: anywhere; }.release-note { max-width: 820px; }.release-note > p:not(.eyebrow) { margin-bottom: 1rem; }.release-note .muted { color: var(--muted); }
+  @media (max-width: 760px) { .doc-copy, .split-section, .operator-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
 </style>

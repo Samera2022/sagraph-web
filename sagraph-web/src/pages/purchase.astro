@@ -9,12 +9,12 @@ import PurchasePanel from "../components/PurchasePanel.svelte";
   <main class="container page">
     <p class="eyebrow">License</p>
     <h1>Own the workflow.</h1>
-    <p class="intro">Choose a license term, bind it to your saGraph machine code, and receive an activation key immediately after PayPal confirms payment.</p>
+    <p class="intro">Choose a one-time license term, bind it to the machine where you use saGraph, and receive an activation key after PayPal confirms payment. These plans do not renew automatically.</p>
     <PurchasePanel client:load />
-    <section class="notes"><p>Payments are verified by the saGraph API directly against PayPal. One PayPal order can activate one machine code.</p><p>Tauri updater packages remain independently signed; purchase verification does not replace installer signature verification.</p></section>
+    <section class="notes"><article><strong>Choose a term</strong><p>Pick 1 month, 3 months, 1 year, or Lifetime. The first three expire at the end of the selected term; Lifetime does not.</p></article><article><strong>How activation works</strong><p>After payment, saGraph uses your PayPal order ID and the machine code shown in Settings to issue an activation key. The same order and machine can be recovered later.</p></article><article><strong>Before you buy</strong><p>saGraph is an early release. Review the available platforms on the download page and make sure the current build fits your setup before purchasing.</p></article></section>
   </main>
   <Footer />
 </SiteLayout>
 <style>
-  .page { padding: 7rem 0 2rem; }.page h1 { font-size: clamp(3rem, 7vw, 6rem); letter-spacing: -0.08em; line-height: 0.96; margin: 1rem 0 1.4rem; }.intro { color: var(--muted); font-size: 1.05rem; line-height: 1.7; max-width: 670px; }.notes { border-top: 1px solid var(--line); color: var(--muted); display: grid; font-size: 0.8rem; gap: 1rem; grid-template-columns: 1fr 1fr; line-height: 1.6; margin-top: 2rem; padding-top: 1.5rem; } @media (max-width: 700px) { .notes { grid-template-columns: 1fr; } }
+  .page { padding: 7rem 0 2rem; }.page h1 { font-size: clamp(3rem, 7vw, 6rem); letter-spacing: -0.08em; line-height: 0.96; margin: 1rem 0 1.4rem; }.intro { color: var(--muted); font-size: 1.05rem; line-height: 1.7; max-width: 670px; }.notes { border-top: 1px solid var(--line); color: var(--muted); display: grid; font-size: 0.8rem; gap: 1.5rem; grid-template-columns: repeat(3, 1fr); line-height: 1.6; margin-top: 2rem; padding-top: 1.5rem; }.notes article strong { color: var(--text); display: block; margin-bottom: 0.45rem; }.notes p { margin: 0; } @media (max-width: 700px) { .notes { grid-template-columns: 1fr; } }
 </style>

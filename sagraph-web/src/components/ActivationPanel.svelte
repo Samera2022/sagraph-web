@@ -1,5 +1,5 @@
 <script lang="ts">
-  const apiBase = "https://api.sagraph.top";
+  const apiBase = import.meta.env.PUBLIC_API_BASE_URL ?? (import.meta.env.DEV ? "http://127.0.0.1:8787" : "https://api.sagraph.top");
   let orderId = $state("");
   let machineCode = $state("");
   let activationKey = $state("");

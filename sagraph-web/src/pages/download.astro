@@ -2,16 +2,28 @@
 import SiteLayout from "../layouts/SiteLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-const platforms = [
-  { name: "Windows", detail: "Windows 10/11 · x64" },
-  { name: "Linux", detail: "AppImage · x86_64" },
-  { name: "macOS", detail: "Apple silicon and Intel" },
-];
+import DownloadPanel from "../components/DownloadPanel.svelte";
 ---
 <SiteLayout title="Download saGraph">
-  <Header /><main class="container page"><p class="eyebrow">Download</p><h1>Put your workflows somewhere close.</h1><p class="intro">Choose your platform. Every release is signed and verified before it can be installed by the app.</p><div class="platform-grid">{platforms.map((platform) => <article class="card platform"><div><span class="platform-symbol">{platform.name.slice(0, 1)}</span><h2>{platform.name}</h2><p>{platform.detail}</p></div><a class="button button-primary" href="/purchase">Get a license</a></article>)}</div><div class="download-note card"><strong>Release downloads are published through the signed updater channel.</strong><span>Install saGraph, then use the in-app updater. A paid license is required only when the release channel enables license-gated downloads.</span></div></main><Footer />
+  <Header />
+  <main class="container page">
+    <p class="eyebrow">Download</p>
+    <h1>Put your workflows somewhere close.</h1>
+    <p class="intro">Choose the package for your platform. saGraph runs as a local desktop panel; your task data is stored on the machine where you use it.</p>
+    <DownloadPanel client:load />
+    <div class="download-note card">
+      <strong>Choose the package that fits your setup.</strong>
+      <span>Installers are recommended for most people. Portable builds do not require installation. The updater archive is used by the desktop app and is not normally needed for a manual install.</span>
+    </div>
+    <section class="install-guide"><p class="eyebrow">Which file should I choose?</p><div class="guide-grid"><article><strong>Most people</strong><p>Use the installer for your platform. It creates the normal application entry and is the easiest way to receive updates.</p></article><article><strong>Portable setup</strong><p>Use the portable Windows build when you want to keep the app and its data together, such as on a work folder or removable drive.</p></article><article><strong>Linux packages</strong><p>Use AppImage for a self-contained download, or DEB for Debian and Ubuntu systems. Make the AppImage executable before launching it.</p></article></div></section>
+  </main>
+  <Footer />
 </SiteLayout>
 <style>
-  .page { padding: 7rem 0 2rem; }.page h1 { font-size: clamp(3rem, 7vw, 6rem); letter-spacing: -0.08em; line-height: 0.96; margin: 1rem 0 1.4rem; max-width: 800px; }.intro { color: var(--muted); font-size: 1.05rem; line-height: 1.7; max-width: 570px; }.platform-grid { display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); margin-top: 4rem; }.platform { display: flex; flex-direction: column; justify-content: space-between; min-height: 270px; padding: 1.6rem; }.platform-symbol { align-items: center; background: var(--panel-soft); border-radius: 12px; color: var(--accent); display: inline-flex; font-weight: 800; height: 38px; justify-content: center; width: 38px; }.platform h2 { margin: 1.8rem 0 0.4rem; }.platform p { color: var(--muted); font-size: 0.85rem; }.platform .button { align-self: flex-start; margin-top: 2rem; }.disabled { cursor: not-allowed; opacity: 0.55; }.download-note { color: var(--muted); display: flex; flex-direction: column; gap: 0.4rem; line-height: 1.6; margin-top: 1rem; padding: 1.2rem 1.4rem; }.download-note strong { color: var(--text); }
-  @media (max-width: 800px) { .platform-grid { grid-template-columns: 1fr; } }
+  .page { padding: 7rem 0 2rem; }
+  .page h1 { font-size: clamp(3rem, 7vw, 6rem); letter-spacing: -0.08em; line-height: 0.96; margin: 1rem 0 1.4rem; max-width: 800px; }
+  .intro { color: var(--muted); font-size: 1.05rem; line-height: 1.7; max-width: 650px; }
+  .download-note { color: var(--muted); display: flex; flex-direction: column; gap: 0.4rem; line-height: 1.6; margin-top: 1rem; padding: 1.2rem 1.4rem; }.install-guide { border-top: 1px solid var(--line); margin-top: 5rem; padding-top: 2rem; }.guide-grid { display: grid; gap: 1rem; grid-template-columns: repeat(3, 1fr); margin-top: 1.4rem; }.guide-grid article { border-left: 2px solid var(--accent); padding-left: 1rem; }.guide-grid strong { font-size: 0.92rem; }.guide-grid p { color: var(--muted); font-size: 0.85rem; line-height: 1.65; margin: 0.5rem 0 0; }
+  .download-note strong { color: var(--text); }
+  @media (max-width: 760px) { .guide-grid { grid-template-columns: 1fr; } }
 </style>

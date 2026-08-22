@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  interface Plan { id: string; label: string; amount: string; term: string; }
+  interface Plan { id: string; label: string; amount: string; term: string; badge?: string; description?: string; }
   interface PayPalNamespace {
     Buttons: (options: {
       style?: Record<string, string>;
@@ -12,7 +12,7 @@
     }) => { render: (target: string) => Promise<void>; close?: () => void };
   }
 
-  const apiBase = "https://api.sagraph.top";
+  const apiBase = import.meta.env.PUBLIC_API_BASE_URL ?? (import.meta.env.DEV ? "http://127.0.0.1:8787" : "https://api.sagraph.top");
   let plans = $state<Plan[]>([]);
   let selectedPlan = $state("lifetime");
   let machineCode = $state("");
@@ -110,7 +110,7 @@
   <div class="plan-list" aria-label="License duration">
     {#each plans as plan}
       <button class:active={selectedPlan === plan.id} onclick={() => { selectedPlan = plan.id; void renderButtons(); }}>
-        <span>{plan.label}</span><strong>${plan.amount}</strong>
+        <span class="plan-copy"><small>{plan.badge ?? plan.term}</small><strong>{plan.label}</strong><em>{plan.description}</em></span><strong class="plan-price">${plan.amount}</strong>
       </button>
     {/each}
   </div>
@@ -137,7 +137,7 @@
   .plan-list { display: flex; flex-direction: column; gap: 0.7rem; }
   .plan-list button { align-items: center; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; color: var(--text); cursor: pointer; display: flex; justify-content: space-between; padding: 1rem 1.1rem; text-align: left; }
   .plan-list button:hover, .plan-list button.active { background: rgba(154, 140, 255, 0.11); border-color: rgba(154, 140, 255, 0.65); }
-  .plan-list span { color: var(--muted); }.plan-list strong { font-size: 1.1rem; }
+  .plan-list button > span { display: flex; flex-direction: column; gap: 0.25rem; }.plan-copy > small { color: var(--accent); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }.plan-copy > strong { font-size: 0.95rem; }.plan-copy > em { color: var(--muted); font-size: 0.72rem; font-style: normal; line-height: 1.35; }.plan-price { font-size: 1.1rem; }
   .checkout { padding: 1.5rem; }.checkout label { display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 0.55rem; }
   input, textarea { background: var(--panel-soft); border: 1px solid var(--line); border-radius: 12px; color: var(--text); font: inherit; outline: none; padding: 0.9rem 1rem; width: 100%; }
   input:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(154, 140, 255, 0.12); }

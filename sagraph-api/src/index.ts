@@ -26,6 +26,16 @@ interface ReleasePlatform {
   signature: string;
   sha256?: string;
   size?: number;
+  downloads?: ReleaseDownload[];
+}
+
+interface ReleaseDownload {
+  kind: string;
+  label: string;
+  filename: string;
+  artifact: string;
+  sha256?: string;
+  size?: number;
 }
 
 interface UpdateProof {
@@ -72,11 +82,10 @@ interface OrderRecord {
 }
 
 const plans = {
-  "1m": { label: "1 month", amount: "0.99", term: "1M", days: 30 },
-  "3m": { label: "3 months", amount: "3.99", term: "3M", days: 90 },
-  "6m": { label: "6 months", amount: "6.99", term: "6M", days: 180 },
-  "1y": { label: "1 year", amount: "12.99", term: "1Y", days: 365 },
-  lifetime: { label: "Lifetime", amount: "19.99", term: "LIFETIME", days: null },
+  "1m": { label: "1 month", amount: "0.99", term: "1M", days: 30, badge: "Starter", description: "A short term for trying a workflow." },
+  "3m": { label: "3 months", amount: "3.99", term: "3M", days: 90, badge: "Popular", description: "A practical term for regular use." },
+  "1y": { label: "1 year", amount: "12.99", term: "1Y", days: 365, badge: "Best value", description: "A full year for long-running projects." },
+  lifetime: { label: "Lifetime", amount: "19.99", term: "LIFETIME", days: null, badge: "Buy once", description: "One payment for permanent access." },
 } as const;
 
 type PlanId = keyof typeof plans;
@@ -173,7 +182,7 @@ async function handlePayPalConfig(request: Request, env: Env): Promise<Response>
   return json({
     client_id: env.PAYPAL_CLIENT_ID,
     currency: "USD",
-    plans: Object.entries(plans).map(([id, plan]) => ({ id, label: plan.label, amount: plan.amount, term: plan.term })),
+    plans: Object.entries(plans).map(([id, plan]) => ({ id, label: plan.label, amount: plan.amount, term: plan.term, badge: plan.badge, description: plan.description })),
   }, 200, { "cache-control": "public, max-age=300" });
 }
 
