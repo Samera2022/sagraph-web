@@ -3,14 +3,30 @@ import "../styles/global.css";
 
 interface Props { title?: string; description?: string; }
 const { title = "saGraph — dependency-aware workflows", description = "A quiet desktop task panel for workflows that depend on each other." } = Astro.props;
+const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "https://www.sagraph.top";
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+    <meta name="application-name" content="saGraph" />
     <meta name="description" content={description} />
-    <link rel="icon" href="/favicon.svg" />
+    <meta name="theme-color" content="#45127a" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="saGraph" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:image" content={`${siteUrl}/icon.png`} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteUrl}/icon.png`} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/icon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <title>{title}</title>
   </head>
   <body><slot /></body>

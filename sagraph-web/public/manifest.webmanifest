@@ -1,0 +1,17 @@
+{
+  "name": "saGraph",
+  "short_name": "saGraph",
+  "description": "A desktop task manager for dependency-aware workflows.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0c12",
+  "theme_color": "#45127a",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "506x506",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
