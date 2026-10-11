@@ -13,7 +13,7 @@ D1 database: sagraph-commerce
 - **Worker Secret**：只给线上 `sagraph-api` Worker 使用，不能放 Pages 或 R2。
 - **Worker Variable**：给 Worker 使用的非敏感配置，例如地址、开关、公开 Client ID。
 
-## GitHub Actions Secrets：桌面仓库
+## GitHub Actions Secrets：桌面仓库（`Samera2022/saGraph-charged`）
 
 ```text
 [ ] TAURI_SIGNING_PRIVATE_KEY              # Tauri 更新包签名私钥
@@ -26,7 +26,7 @@ D1 database: sagraph-commerce
 `CLOUDFLARE_R2_UPLOAD_TOKEN` 不是 R2 的 Access Key，也不是 Secret Access Key。
 它是一个 Cloudflare API Token，作用是允许 GitHub Actions 使用 Wrangler 把发布包、`.sig`、catalog 和安全报告上传到 R2。
 获取方式：Cloudflare Dashboard → My Profile → API Tokens → Create Token；给它最小的 R2 Object Read & Write 权限，并限制到 `sagraph-releases` bucket。
-填写位置：桌面仓库 GitHub → Settings → Secrets and variables → Actions → New repository secret，名称必须为 `CLOUDFLARE_R2_UPLOAD_TOKEN`。
+填写位置：桌面仓库 `Samera2022/saGraph-charged` → Settings → Secrets and variables → Actions → New repository secret，名称必须为 `CLOUDFLARE_R2_UPLOAD_TOKEN`。
 
 ## GitHub Actions Secrets：web 仓库
 

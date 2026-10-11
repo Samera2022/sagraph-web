@@ -341,7 +341,7 @@ pnpm run deploy
 
 ### 桌面发布 Secret
 
-根桌面程序仓库的 Release workflow 需要：
+根桌面程序仓库（`Samera2022/saGraph-charged`）的 Release workflow 需要：
 
 ```text
 TAURI_SIGNING_PRIVATE_KEY
@@ -352,7 +352,7 @@ TAURI_SIGNING_PRIVATE_KEY_PASSWORD
 
 ### VirusTotal 与 R2 Secret
 
-根桌面程序仓库的 `Release Security and R2 Publish` workflow 需要：
+根桌面程序仓库（`Samera2022/saGraph-charged`）的 `Release Security and R2 Publish` workflow 需要：
 
 ```text
 VIRUSTOTAL_API_KEY

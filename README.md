@@ -9,6 +9,11 @@ sagraph-api/  Cloudflare Worker + R2
 docs/         两个项目共用的部署与更新协议文档
 ```
 
+发布来源为桌面程序仓库 `Samera2022/saGraph-charged`（保留付费/激活码逻辑）。
+官网与更新 API 不直接引用该仓库：桌面仓库的发布 CI 将安装包、`.sig` 与
+`releases/catalog.json` 上传到 R2 bucket `sagraph-releases`，本仓库的 Worker
+只负责读取并对外提供下载与更新接口。
+
 ## Pages
 
 ```bash
