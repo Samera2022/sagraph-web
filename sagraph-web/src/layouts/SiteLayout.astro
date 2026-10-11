@@ -2,8 +2,9 @@
 import "../styles/global.css";
 
 interface Props { title?: string; description?: string; }
-const { title = "saGraph — dependency-aware workflows", description = "A quiet desktop task panel for workflows that depend on each other." } = Astro.props;
+const { title = "Graph Todo (saGraph) — dependency-aware Todo app", description = "Graph Todo (saGraph) is a desktop Todo app for tasks with dependencies. See what is ready, what is blocked, and why." } = Astro.props;
 const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "https://www.sagraph.top";
+const canonicalUrl = new URL(Astro.url.pathname, `${siteUrl}/`).toString().replace(/\/$/, Astro.url.pathname === "/" ? "/" : "");
 ---
 <!doctype html>
 <html lang="en">
@@ -12,12 +13,14 @@ const siteUrl = Astro.site?.toString().replace(/\/$/, "") ?? "https://www.sagrap
     <meta name="viewport" content="width=device-width" />
     <meta name="application-name" content="saGraph" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#45127a" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="saGraph" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={siteUrl} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={`${siteUrl}/icon.png`} />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />

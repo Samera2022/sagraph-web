@@ -38,7 +38,7 @@ pnpm dev
 部署：
 
 ```bash
-pnpm deploy
+pnpm run deploy
 ```
 
 Worker 使用以下域名和 R2 binding：
@@ -47,6 +47,7 @@ Worker 使用以下域名和 R2 binding：
 API domain: https://api.sagraph.top
 Download domain: https://download.sagraph.top
 R2 binding: RELEASES_BUCKET -> sagraph-releases
+D1 binding: DB -> sagraph-commerce
 ```
 
 详细操作见 `docs/cloudflare-after-setup.md`。

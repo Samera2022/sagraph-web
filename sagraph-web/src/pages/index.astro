@@ -2,15 +2,36 @@
 import SiteLayout from "../layouts/SiteLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      name: "saGraph",
+      alternateName: ["Graph Todo", "Graph Todo (saGraph)"],
+      url: "https://www.sagraph.top/",
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "Graph Todo (saGraph)",
+      alternateName: "saGraph",
+      applicationCategory: "TaskManagementApplication",
+      operatingSystem: "Windows, Linux, macOS",
+      description: "A dependency-aware desktop Todo app that shows which tasks are ready, blocked, and why.",
+      url: "https://www.sagraph.top/",
+    },
+  ],
+};
 ---
-<SiteLayout title="saGraph — a task manager for dependencies" description="A desktop task manager for work where one task depends on another. See what is ready, what is blocked, and why.">
+<SiteLayout title="Graph Todo (saGraph) — dependency-aware Todo app" description="Graph Todo (saGraph) is a desktop Todo app for tasks with dependencies. See what is ready, what is blocked, and why.">
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} is:inline />
   <Header />
   <main>
     <section class="hero container">
       <div class="hero-copy">
-        <p class="eyebrow">A task manager for dependent work</p>
+        <p class="eyebrow">Graph Todo · a dependency-aware Todo app</p>
         <h1>Know what you can <span>do <b>next.</b></span></h1>
-        <p class="hero-lead">saGraph turns task dependencies into a clear next step. See what is ready, what is blocked, and the exact reason why.</p>
+        <p class="hero-lead">saGraph is a Todo app that turns task dependencies into a clear next step. See what is ready, what is blocked, and the exact reason why.</p>
         <div class="actions"><a class="button button-primary" href="/download">Download saGraph <span>↓</span></a><a class="button button-ghost" href="#how-it-works">See how it works <span>↓</span></a></div>
         <div class="hero-meta"><span>Windows · Linux · macOS</span><span>Local-first data</span><span>No account required</span></div>
       </div>

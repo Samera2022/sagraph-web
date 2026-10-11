@@ -61,7 +61,7 @@ Worker 不通过 Pages 构建。进入仓库根目录的 API 项目：
 cd sagraph-api
 pnpm install
 pnpm check
-pnpm deploy
+pnpm run deploy
 ```
 
 Worker 项目已经绑定：

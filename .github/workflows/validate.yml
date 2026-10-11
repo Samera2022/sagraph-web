@@ -1,0 +1,54 @@
+name: Validate Web Services
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'sagraph-web/**'
+      - 'sagraph-api/**'
+      - 'docs/**'
+      - '.github/workflows/**'
+  pull_request:
+    paths:
+      - 'sagraph-web/**'
+      - 'sagraph-api/**'
+      - 'docs/**'
+      - '.github/workflows/**'
+
+jobs:
+  pages:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sagraph-web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: sagraph-web/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check
+      - run: pnpm build
+
+  worker:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sagraph-api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: sagraph-api/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check

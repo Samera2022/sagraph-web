@@ -1,72 +1,77 @@
-# Cloudflare 当前配置
-
-资源和域名均已创建，本文件只记录项目配置，避免重复创建。
+# Cloudflare 当前架构
 
 ## Pages
 
 ```text
 Project: sagraph-web
-Domain: https://www.sagraph.top
-Git root directory: sagraph-web
+Root directory: sagraph-web
 Build command: pnpm build
-Build output directory: dist
-Node.js: 22
+Build output: dist
+Domain: https://www.sagraph.top
 ```
 
-Production 环境变量：
+官网包含：
 
 ```text
-PUBLIC_SITE_URL=https://www.sagraph.top
-PUBLIC_API_BASE_URL=https://api.sagraph.top
-PUBLIC_DOWNLOAD_BASE_URL=https://download.sagraph.top
+/purchase   PayPal 购买和自动生成激活码
+/activate   使用已完成 PayPal 订单补发激活码
+/download   下载页面
+/changelog  发布日志
 ```
 
 ## Worker
 
 ```text
 Project: sagraph-api
-Source directory: sagraph-api
-API domain: https://api.sagraph.top
+Domain: https://api.sagraph.top
 Download domain: https://download.sagraph.top
+R2 binding: RELEASES_BUCKET -> sagraph-releases
+D1 binding: DB -> sagraph-commerce
 ```
 
-部署：
+域名已经由 Cloudflare Dashboard 管理，`wrangler.toml` 不声明 routes。
 
-```bash
-cd sagraph-api
-pnpm install
-pnpm check
-pnpm deploy
-```
+## 密钥分类
 
-## R2
-
-```text
-Bucket: sagraph-releases
-Worker binding: RELEASES_BUCKET
-```
-
-公开下载必须经过 `download.sagraph.top` 对应的 Worker 路由，不要把整个 R2 bucket 设为公开。
-
-## Secrets
-
-Updater 私钥只放在发布 CI：
+桌面发布仓库 GitHub Actions：
 
 ```text
 TAURI_SIGNING_PRIVATE_KEY
 TAURI_SIGNING_PRIVATE_KEY_PASSWORD
+CLOUDFLARE_R2_UPLOAD_TOKEN
+CLOUDFLARE_ACCOUNT_ID
+VIRUSTOTAL_API_KEY（可选）
 ```
 
-更新日志私钥优先放在发布 CI：
+Worker Secrets：
+
+```text
+PAYPAL_CLIENT_SECRET
+LICENSE_SIGNING_PRIVATE_KEY
+```
+
+web 仓库 GitHub Actions 还需要：
+
+```text
+CLOUDFLARE_D1_DATABASE_ID
+```
+
+Worker Variables：
+
+```text
+PAYPAL_CLIENT_ID
+PAYPAL_BASE_URL
+REQUIRE_LICENSE
+```
+
+Microsoft Store 更新授权直接信任桌面客户端本地状态，不读写 D1；D1 只保存官网 PayPal 订单和激活记录。
+
+已经取消：
 
 ```text
 CHANGELOG_SIGNING_PRIVATE_KEY
+VITE_CHANGELOG_MANIFEST_URL
+LICENSE_VERIFY_URL
 ```
 
-付费更新会话实现后再给 Worker 添加：
-
-```text
-UPDATE_TOKEN_SECRET
-```
-
-完整后续实施流程见 `docs/cloudflare-after-setup.md`。
+详细操作见 `cloudflare-after-setup.md`。
