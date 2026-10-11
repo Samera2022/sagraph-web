@@ -7,3 +7,12 @@ keep_vars = true
 [[r2_buckets]]
 binding = "RELEASES_BUCKET"
 bucket_name = "sagraph-releases"
+
+[vars]
+PAYPAL_BASE_URL = "https://api-m.paypal.com"
+REQUIRE_LICENSE = "0"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "sagraph-commerce"
+database_id = "eae83103-8d93-4c95-a99e-d03358d833b5"
