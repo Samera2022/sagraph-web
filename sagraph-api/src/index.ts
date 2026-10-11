@@ -119,8 +119,12 @@ export default {
       }
       if (url.pathname === "/api/v1/licenses/activate") return cors(await handleActivation(request, env));
       return cors(json({ error: "not_found" }, 404));
-    } catch (error) {
-      console.error(JSON.stringify({ event: "request_failed", path: url.pathname, error: String(error) }));
+  } catch (error) {
+      const errorText = String(error);
+      console.error(JSON.stringify({ event: "request_failed", path: url.pathname, error: errorText }));
+      if (errorText.includes("paypal_credentials_invalid")) {
+        return cors(json({ error: "paypal_credentials_invalid" }, 502));
+      }
       return cors(json({ error: "service_unavailable" }, 503));
     }
   },
@@ -163,7 +167,7 @@ async function handleUpdateCheck(request: Request, env: Env, url: URL): Promise<
     version: metadata.version,
     notes: metadata.notes,
     pub_date: metadata.pub_date,
-    url: `https://download.sagraph.top/api/v1/releases/${encodePath(platform.artifact)}`,
+    url: `https://download.sagraph.top/${encodePath(platform.artifact)}`,
     signature,
   });
 }
@@ -203,7 +207,7 @@ async function handleCreatePayPalOrder(request: Request, env: Env): Promise<Resp
         description: `saGraph ${plan.label} license`,
         amount: { currency_code: "USD", value: plan.amount },
       }],
-      payment_source: { paypal: { experience_context: { brand_name: "saGraph", shipping_preference: "NO_SHIPPING", user_action: "PAY_NOW" } } },
+      application_context: { brand_name: "saGraph", shipping_preference: "NO_SHIPPING", user_action: "PAY_NOW" },
     }),
   });
 
@@ -342,7 +346,10 @@ async function paypalRequest<T>(env: Env, path: string, init: RequestInit = {}):
     },
     body: "grant_type=client_credentials",
   });
-  if (!tokenResponse.ok) throw new Error(`paypal_oauth_${tokenResponse.status}`);
+  if (!tokenResponse.ok) {
+    if (tokenResponse.status === 401) throw new Error("paypal_credentials_invalid");
+    throw new Error(`paypal_oauth_${tokenResponse.status}`);
+  }
   const token = await tokenResponse.json<{ access_token?: string }>();
   if (!token.access_token) throw new Error("paypal_access_token_missing");
 
@@ -354,7 +361,10 @@ async function paypalRequest<T>(env: Env, path: string, init: RequestInit = {}):
       ...(init.headers ?? {}),
     },
   });
-  if (!response.ok) throw new Error(`paypal_api_${response.status}`);
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(`paypal_api_${response.status}:${detail.slice(0, 500)}`);
+  }
   return response.json<T>();
 }
 
@@ -519,9 +529,7 @@ function isSafeReleaseKey(key: string): boolean {
 }
 
 function encodePath(value: string): string {
-  const releasePrefix = "releases/";
-  const relative = value.startsWith(releasePrefix) ? value.slice(releasePrefix.length) : value;
-  return relative.split("/").map(encodeURIComponent).join("/");
+  return value.split("/").map(encodeURIComponent).join("/");
 }
 
 function base64UrlDecode(value: string): Uint8Array {

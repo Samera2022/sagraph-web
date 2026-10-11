@@ -72,10 +72,10 @@ pnpm wrangler login
 部署到现有 `sagraph-api` Worker：
 
 ```bash
-pnpm deploy
+pnpm run deployVIRUSTOTAL_API_KEYVIRUSTOTAL_API_KEY
 ```
 
-`wrangler.toml` 已包含：
+Cloudflare Dashboard 已经管理以下 Custom Domain；`wrangler.toml` 不再重复声明它们，只保留 R2 binding：
 
 ```text
 api.sagraph.top       -> sagraph-api
@@ -88,8 +88,8 @@ RELEASES_BUCKET       -> sagraph-releases
 ```text
 GET  https://api.sagraph.top/
 GET  https://api.sagraph.top/health
-GET  https://download.sagraph.top/api/v1/releases/<version>/<target>/<arch>/<filename>
-HEAD https://download.sagraph.top/api/v1/releases/<version>/<target>/<arch>/<filename>
+GET  https://download.sagraph.top/releases/<version>/<target>/<arch>/<filename>
+HEAD https://download.sagraph.top/releases/<version>/<target>/<arch>/<filename>
 ```
 
 部署后测试：
@@ -138,7 +138,7 @@ https://api.sagraph.top/api/v1/updates/windows/x86_64/0.1.0
   "version": "0.2.0",
   "notes": "新增自动更新和更新日志界面。",
   "pub_date": "2026-08-21T12:00:00Z",
-  "url": "https://download.sagraph.top/api/v1/releases/0.2.0/windows/x86_64/saGraph_0.2.0_x64-setup.nsis.zip",
+  "url": "https://download.sagraph.top/releases/0.2.0/windows/x86_64/saGraph_0.2.0_x64-setup.nsis.zip",
   "signature": "TAURI_GENERATED_SIGNATURE_TEXT"
 }
 ```
@@ -294,5 +294,108 @@ Worker 尚未实现更新检查接口之前，不要发布使用正式 endpoint 
 curl -i https://api.sagraph.top/api/v1/updates/windows/x86_64/0.1.0
 curl -i https://api.sagraph.top/api/v1/updates/windows/x86_64/0.2.0
 curl -i https://api.sagraph.top/api/v1/changelog/manifest
-curl -I https://download.sagraph.top/api/v1/releases/0.2.0/windows/x86_64/<文件名>
+curl -I https://download.sagraph.top/releases/0.2.0/windows/x86_64/<文件名>
 ```
+
+## 自动化状态与 Secrets
+
+### Worker 自动部署
+
+`web/.github/workflows/deploy-worker.yml` 会在 `sagraph-api/**` 变化并推送到 `main` 时执行：
+
+```text
+pnpm install --frozen-lockfile
+pnpm check
+pnpm run deploy
+```
+
+在 GitHub 仓库 `Samera2022/sagraph-web` 中添加以下 Actions Secrets：
+
+```text
+CLOUDFLARE_WORKERS_DEPLOY_TOKEN
+CLOUDFLARE_ACCOUNT_ID
+```
+
+`CLOUDFLARE_WORKERS_DEPLOY_TOKEN` 只授予部署 `sagraph-api` Worker 的权限。
+
+### Pages 自动部署
+
+Pages 继续由 Cloudflare Git Integration 负责。仓库中的 `sagraph-web/**` 变化后，Pages 使用：
+
+```text
+Root directory: sagraph-web
+Build command: pnpm build
+Output directory: dist
+```
+
+`web/.github/workflows/validate.yml` 只做检查，不重复上传 Pages。
+
+需要手动更新 Pages 时，可以在官网项目中执行：
+
+```bash
+cd sagraph-web
+pnpm run deploy
+```
+
+该命令先构建，再使用 Wrangler 将 `dist` 上传到现有 `sagraph-web` Pages 项目。日常仍推荐直接推送 `main`，交给 Cloudflare Git Integration 自动发布。
+
+### 桌面发布 Secret
+
+根桌面程序仓库的 Release workflow 需要：
+
+```text
+TAURI_SIGNING_PRIVATE_KEY
+TAURI_SIGNING_PRIVATE_KEY_PASSWORD
+```
+
+它们只在构建时使用，不能绑定给公开 Worker。
+
+### VirusTotal 与 R2 Secret
+
+根桌面程序仓库的 `Release Security and R2 Publish` workflow 需要：
+
+```text
+VIRUSTOTAL_API_KEY
+CLOUDFLARE_R2_UPLOAD_TOKEN
+CLOUDFLARE_ACCOUNT_ID
+```
+
+VirusTotal 报告会保存到三个位置：
+
+```text
+GitHub Actions artifact: virus-total-v<tag>
+GitHub Release 附件: virus-total-scan/*
+R2: security-reports/<version>/*.json
+```
+
+未设置 `VIRUSTOTAL_API_KEY` 时，发布不会失败，但会生成 `SKIPPED.txt` 和标记为 skipped 的 `index.json`。R2 发布凭据属于正式发布必需项，缺失时安全发布任务会失败，防止 GitHub Release 已发布但 R2 更新源未同步。
+
+R2 上传 Token 只授予 `sagraph-releases` bucket 的对象写入权限。报告不由客户端直接信任，也不参与 Tauri 安装签名校验；它是发布审计记录。
+
+## 付费更新通路
+
+付费通路已经保留，但默认不强制开启：
+
+```text
+REQUIRE_LICENSE 未设置或为 0 -> 公共更新检查
+REQUIRE_LICENSE=1              -> 检查和下载要求 Bearer update token
+```
+
+开启付费通路时，Worker 还需要：
+
+```text
+UPDATE_TOKEN_SECRET
+LICENSE_VERIFY_URL
+```
+
+流程为：
+
+```text
+客户端许可证
+→ POST /api/v1/update-sessions
+→ Worker 验证许可证
+→ 返回 15 分钟 update token
+→ 客户端用 Authorization: Bearer <token> 检查和下载
+```
+
+当前桌面客户端仍使用 Tauri Updater 的默认 `check()`，所以发布第一阶段建议保持 `REQUIRE_LICENSE=0`。等客户端接入许可证会话并向 updater 请求传递 Authorization header 后，再切换为 `REQUIRE_LICENSE=1`。

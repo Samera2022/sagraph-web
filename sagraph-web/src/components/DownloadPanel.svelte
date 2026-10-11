@@ -78,8 +78,7 @@
   }
 
   function downloadUrl(artifact: string): string {
-    const relative = artifact.replace(/^releases\//, "");
-    return `${downloadBase}/api/v1/releases/${relative.split("/").map(encodeURIComponent).join("/")}`;
+    return `${downloadBase}/${artifact.split("/").map(encodeURIComponent).join("/")}`;
   }
 
   function formatSize(size?: number): string {
